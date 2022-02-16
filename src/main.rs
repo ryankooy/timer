@@ -32,7 +32,7 @@ fn main() -> io::Result<()> {
     let mut sout = stdout().into_raw_mode().unwrap();
     write!(
         sout,
-        "{}{}Ctrl + z: ZZZ, Ctrl + y: YAK, Ctrl + g: MIA{}",
+        "{}{}Ctrl + z: ZZZ, Ctrl + y: YAK, Ctrl + g: MIA, Ctrl + w: WEB{}",
         termion::cursor::Goto(1, 1),
         termion::clear::All,
         termion::cursor::Hide
@@ -63,7 +63,10 @@ fn main() -> io::Result<()> {
                 method = "zzz";
                 break;
             },
-            Key::Alt('q') => break,
+            Key::Ctrl('w') => {
+                method = "web";
+                break;
+            },
             _ => (),
         }
 
@@ -105,7 +108,7 @@ fn main() -> io::Result<()> {
     let _ = tx.send(());
 
     let total: f64 = (now.elapsed().as_secs() as f64) / 60.0;
-    println!("{} min ({:.2})", total, method);
+    println!("{:.2} min ({})", total, method);
 
     write_file(total, method)?;
 
