@@ -9,7 +9,7 @@ use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 
 fn write_file(time_elapsed: f64, method: &str) -> io::Result<()> {
-    let filename: &str = "crl.txt";
+    let filename: &str = "/mnt/c/Users/Ryan Kooy/Desktop/andthereitis.txt";
 
     if !Path::new(&filename).exists() {
         let _ = File::create(filename)?;
@@ -21,7 +21,7 @@ fn write_file(time_elapsed: f64, method: &str) -> io::Result<()> {
         .open(filename)
         .unwrap();
 
-    if let Err(e) = writeln!(file, "{} ({})", time_elapsed, method) {
+    if let Err(e) = writeln!(file, "{:.2} ({})", time_elapsed, method) {
         eprintln!("Couldn't write to file: {}", e);
     }
 
@@ -105,7 +105,7 @@ fn main() -> io::Result<()> {
     let _ = tx.send(());
 
     let total: f64 = (now.elapsed().as_secs() as f64) / 60.0;
-    println!("{} min ({})", total, method);
+    println!("{} min ({:.2})", total, method);
 
     write_file(total, method)?;
 
